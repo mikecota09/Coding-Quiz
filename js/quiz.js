@@ -78,21 +78,71 @@ const quizQuestions = [
     }
 ];
 
-// grab references, define variables
+// Define variables
+
+// grab references to elements
+var startQuizSection = document.getElementById("start");
+var gameTimer = document.getElementById("timer");
+var questionTitle = document.getElementById("quiz-header");
+var questionChoices = document.getElementById("choices");
+var enterInitialsSection = document.getElementById("your-initials");
+var enterInitialsSubmit = document.getElementById("submit-initials");
+var highScoresSection = document.getElementById("scores");
+var viewHighScores = document.getElementById("view-high-score");
+
+// define other variables
+var correctAns = 0;
+var questionNum = 0;
+var totalQuestions = quizQuestions.length;
+var questionChoices = quizQuestions[questionNum].choices;
+var gameTimer = totalQuestions * 10;
+var scoreResult;
+var highScore = [];
+
+
+/**
+ * FUNCTIONS
+ */
+
 // WHEN I click the start button
+function startQuiz() {
+    // clear the start section
+    startQuizSection.setAttribute("style", "display: none;");
+    
+}
+
 // THEN a timer starts
+function startCountDown() {
+
+    // when hits 0, game ends
+}
+
 // presented with a question
 // after question is answered, show if correct or wrong
-// if wrong, time is subtracted from the clock
-// repeat with the rest of questions
-// when all questions are answered or timer reaches 0, game over
-// when game over, save initials and score
+function checkAnswer() {
 
-//functions
+    // if wrong, time is subtracted from the clock
+
+}
+
+// repeat with the rest of questions
+
+// when all questions are answered or timer reaches 0, game over
+
+// when game over, show all done, and show final score
+
+// add input box to enter initial
+
+// store highscore in local storage
+function storeHighScore () {
+
+}
 
 // interval = setInterval(function()) {
 //     counter++;
 //     document.querySelector("#timer").textContent = counter;
 // }, 1000)
 
-//add event listeners
+/**
+ * ADD EVENT LISTENERS
+ */

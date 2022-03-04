@@ -1,28 +1,27 @@
-#startTime {
-    background-color: purple;
-    margin-left: 33%;
-    padding: 15px 32px;
-    font-size: 20px;
-    color: white;
+body {
+    background-color: #f2f2f2; 
 }
 
-#wrapper {
-    position: absolute;
-    left: 30%;
-    top: 20%;
-    width: 500px;
-    height: 500px;
-    border: 1px solid purple;
+h1, 
+h2 {
+    color: #313740;
+    font-family: 'Montserrat', sans-serif;
 }
 
-#questionsDiv {
-    margin: 20px;
+a {
+    color: #3290A6;
+    font-family: 'Archivo', sans-serif;
 }
 
-#currentTime {
-    float: right;
+a:hover {
+    color: #99B8BF;
+    font-family: 'Archivo', sans-serif;
 }
 
-h1 {
-    text-align: center;
+span {
+    font-family: 'Archivo', sans-serif;
+}
+
+p {
+    font-family: 'Archivo', sans-serif;
 }
