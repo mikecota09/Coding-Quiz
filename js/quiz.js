@@ -15,7 +15,7 @@
 // Pseudocode
 
 // define a set of questions
-const quizQuestions = [
+const questions = [
     {
         question: "Inside which HTML element do we put the JavaScript?",
         choices: ["a. <js>", "b. <javascript>", "c. <scripting>", "d. <script>"],
@@ -38,12 +38,12 @@ const quizQuestions = [
     },
     {
         question: "How do you create a function in JavaScript",
-        choices: ["a. function = myFunction()", "b. function myFunction()", "c. function:myFunction()"],
+        choices: ["a. function = myFunction()", "b. function myFunction()", "c. function:myFunction()", "d. createMyFunction()"],
         answer: "b. function myFunction()"
     },
     {
         question: "How do you call a function named myFunction?",
-        choices: ["a. call myFunction()", "b. call function myFunction()", "c. myFunction()"],
+        choices: ["a. call myFunction()", "b. call function myFunction()", "c. myFunction()", "d. call myFunction"],
         answer: "c. myFunctions()"
     },
     {
@@ -58,7 +58,7 @@ const quizQuestions = [
     },
     {
         question: "Who invented JavaScript?",
-        choices: ["a. Douglas Crockford", "b. Sheryl Sandberg", "c. Brendan Eich"],
+        choices: ["a. Douglas Crockford", "b. Sheryl Sandberg", "c. Brendan Eich", "d. Ben Javascript"],
         answer: "c. Brendan Eich"
     },
     {
@@ -68,7 +68,7 @@ const quizQuestions = [
     },
     {
         question: "How do you add a comment in a JavaScript?",
-        choices: ["a. //This is a comment", "b. <!--This is a comment-->", "c. 'This is a comment"],
+        choices: ["a. //This is a comment", "b. <!--This is a comment-->", "c. 'This is a comment", "d. * This is a comment *"],
         answer: "a. //This is a comment"
     },
     {
@@ -78,46 +78,108 @@ const quizQuestions = [
     }
 ];
 
-// Define variables
+/** 
+ * DEFINE VARIABLES 
+ */
 
 // grab references to elements
-var startQuizSection = document.getElementById("start");
-var gameTimer = document.getElementById("timer");
-var questionTitle = document.getElementById("quiz-header");
-var questionChoices = document.getElementById("choices");
+var start = document.getElementById("start");
+var time = document.getElementById("timer");
+var startQuizBtn = document.getElementById("start-quiz-button");
+var timeLeft = document.getElementById("timeLeft");
+var quizQuestion = document.getElementById("quizQuestion");
+var choices = document.getElementById("choices");
 var enterInitialsSection = document.getElementById("your-initials");
 var enterInitialsSubmit = document.getElementById("submit-initials");
 var highScoresSection = document.getElementById("scores");
 var viewHighScores = document.getElementById("view-high-score");
+var everything = document.getElementById("everything");
+
 
 // define other variables
 var correctAns = 0;
 var questionNum = 0;
-var totalQuestions = quizQuestions.length;
-var questionChoices = quizQuestions[questionNum].choices;
-var gameTimer = totalQuestions * 10;
 var scoreResult;
 var highScore = [];
+var questionStart = 0;
 
 
 /**
  * FUNCTIONS
  */
 
-// WHEN I click the start button
-function startQuiz() {
-    // clear the start section
-    startQuizSection.setAttribute("style", "display: none;");
+// WHEN I click the start button, timer starts
+
+var totalTime = 121;
+function startCountDown() {
+    // var incorrectPenalty = 10;
+    var startTimer = setInterval(function() {
+        totalTime--;
+        timeLeft.textContent = totalTime;
+        if(totalTime == 0) {
+            gameOver();
+            timer.textContent = "Time's Up!";
+            clearInterval(startTimer);
+        }
+    },1000);
+
+    // if (interval === 0) {
+    //     holdInterval = interval(function() {
+    //         totalTime--;
+    //         timeLeft.textContent = totalTime;
+
+    //         // when hits 0, game ends
+    //         if (timeLeft <= 0) {
+    //             clearInterval(holdInterval);
+    //             gameOver();
+    //             timeLeft.textContent = "Time Over!";
+    //         }
+    //     }, 1000);
+    // }
+    showQuiz(); 
+};
+
+// var timerId = setTimeout(function() {
+//     console.log("ex[ire")
+// }, 1000);
+
+console.log(questions[questionStart].question);
+console.log(questions[questionStart].choices);
+
+// then presented with questions and choices, function to render questions and choices
+
+function showQuiz() {
+    function quiz(questions){
+        this.score = 0;
+        this.questions = questions;
+        this.questionIndex = 0;
+    }
+    quizQuestion.innerHTML = quiz.getQuestionIndex().text;
+
     
 }
 
-// THEN a timer starts
-function startCountDown() {
+// function render(questionStart) {
+//     quizQuestion.innerHTML = "";
+//     start.innerHTML = "";
+//     choices.innerHTML = "";
+//     var createChoices = document.createElement("ul");
+//     createChoices.innerHTML = "";
+//     for (var i = 0; i < questions.length; i++) {
+//         var quizQues = questions[questionStart].question;
+//         var choicesOption = questions[questionStart].choices;
+//         quizQuestion.textContent = quizQues;
+//         choices.textContent = choicesOption;
+//     }
+//     choicesOption.forEach(function (eachChoice) {
+//         var listChoice = document.createElement("li");
+//         listChoice.textContent = eachChoice;
+//         start.appendChild(choices);
+//         choices.appendChild(listChoice);
+//         listChoice.addEventListener("click", checkAnswer);
+//     })
+// }
 
-    // when hits 0, game ends
-}
-
-// presented with a question
 // after question is answered, show if correct or wrong
 function checkAnswer() {
 
@@ -128,6 +190,9 @@ function checkAnswer() {
 // repeat with the rest of questions
 
 // when all questions are answered or timer reaches 0, game over
+function gameOver () {
+
+}
 
 // when game over, show all done, and show final score
 
@@ -146,3 +211,5 @@ function storeHighScore () {
 /**
  * ADD EVENT LISTENERS
  */
+
+startQuizBtn.addEventListener("click", startCountDown);
