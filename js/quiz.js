@@ -1,20 +1,4 @@
-// Criteria
-
-// GIVEN I am taking a code quiz
-// WHEN I click the start button
-// THEN a timer starts and I am presented with a question
-// WHEN I answer a question
-// THEN I am presented with another question
-// WHEN I answer a question incorrectly
-// THEN time is subtracted from the clock
-// WHEN all questions are answered or the timer reaches 0
-// THEN the game is over
-// WHEN the game is over
-// THEN I can save my initials and score
-
-// Pseudocode
-
-// define a set of questions
+// Define the questions that will be used for the quiz
 const questions = [
     {
         question: "Inside which HTML element do we put the JavaScript?",
@@ -78,7 +62,7 @@ const questions = [
     }
 ];
 
-// grab references to elements
+// Grab references to elements
 var timer = document.getElementById("timer");
 var timeLeft = document.getElementById("timeLeft");
 var timesUp = document.getElementById("timesUp");
@@ -97,6 +81,7 @@ var answerCheck = document.getElementById("answerCheck");
 var summary = document.getElementById("summary");
 var submitInitialBtn = document.getElementById("submitInitialBtn");
 var initialInput = document.getElementById("initialInput");
+var everything = document.getElementById("everything");
 
 var highScoreSection = document.getElementById("highScoreSection");
 var finalScore = document.getElementById("finalScore");
@@ -106,24 +91,21 @@ var clearHighScoreBtn = document.getElementById("clearHighScoreBtn");
 var viewHighScore = document.getElementById("viewHighScore");
 var listOfHighScores = document.getElementById("listOfHighScores");
 
-// define other variables
+// Define other variables
 var correctAns = 0;
 var questionNum = 0;
 var scoreResult;
 var questionIndex = 0;
 
-/**
- * FUNCTIONS
- */
+// Functions
 
 // WHEN I click the start button, timer starts
 var totalTime = 151;
 function newQuiz() {
-    correctAns = 0;
     questionIndex = 0;
     totalTime = 150;
     timeLeft.textContent = totalTime;
-    initialInput.value = "";
+    initialInput.textContent = "";
 
     startDiv.style.display = "none";
     questionDiv.style.display = "block";
@@ -140,7 +122,6 @@ function newQuiz() {
             }
         }
     },1000);
-
     showQuiz();
 };
 
@@ -173,18 +154,17 @@ function checkAnswer(answer) {
         // console.log(correctAns);
         answerCheck.textContent = "Correct!";
     } else {
-        // wrong answer, deduct 10 second from timer
+        // wrong answer, deduct 10 seconds from the timer
         totalTime -= 10;
         timeLeft.textContent = totalTime;
         answerCheck.textContent = "Wrong! The correct answer is: " + questions[questionIndex].answer;
     }
 
     questionIndex++;
-    // repeat with the rest of questions 
+    // repeat questions until questions are done and then game is over
     if (questionIndex < questions.length) {
         nextQuestion();
     } else {
-        // if no more question, run game over function
         gameOver();
     }
 }
@@ -197,7 +177,7 @@ function chooseC() { checkAnswer(2); }
 
 function chooseD() { checkAnswer(3); }
 
-// when all questions are answered or timer reaches 0, game over
+// when all questions are answered or timer reaches 0, game is over
 function gameOver() {
     summary.style.display = "block";
     questionDiv.style.display = "none";
@@ -205,12 +185,13 @@ function gameOver() {
     timer.style.display = "none";
     timesUp.style.display = "block";
 
-    // show final score
+    // display the final score
     finalScore.textContent = correctAns;
 }
 
-// enter initial and store highscore in local storage
-function storeHighScores() {
+// enter initials and store highscore in local storage
+function storeHighScores(event) {
+    event.preventDefault();
 
     // stop function if initial is blank
     if (initialInput.value === "") {
@@ -244,9 +225,6 @@ function storeHighScores() {
 
     // stringify array in order to store in local storage
     var scoresArrayString = JSON.stringify(scoresArray);
-
-    // console.log(highScoreString);
-    
     window.localStorage.setItem("high scores", scoresArrayString);
     
     // show current highscores
@@ -256,15 +234,17 @@ function storeHighScores() {
 // function to show high scores
 var i = 0;
 function showHighScores() {
+
     startDiv.style.display = "none";
     timer.style.display = "none";
+    questionDiv.style.display = "none";
     timesUp.style.display = "none";
     summary.style.display = "none";
     highScoreSection.style.display = "block";
 
     var savedHighScores = localStorage.getItem("high scores");
 
-    // check if there is any stored in local storage
+    // check if there is any in local storage
     if (savedHighScores === null) {
         return;
     }
@@ -279,17 +259,21 @@ function showHighScores() {
     }
 }
 
-/**
- * ADD EVENT LISTENERS
- */
+// Event Listeners
 
 startQuizBtn.addEventListener("click", newQuiz);
 choiceA.addEventListener("click", chooseA);
 choiceB.addEventListener("click", chooseB);
 choiceC.addEventListener("click", chooseC);
 choiceD.addEventListener("click", chooseD);
-submitInitialBtn.addEventListener("click", storeHighScores);
-viewHighScore.addEventListener("click", showHighScores);
+
+submitInitialBtn.addEventListener("click", function(event){ 
+    storeHighScores(event);
+});
+
+viewHighScore.addEventListener("click", function(event) { 
+    showHighScores(event);
+});
 
 goBackBtn.addEventListener("click", function() {
     startDiv.style.display = "block";
